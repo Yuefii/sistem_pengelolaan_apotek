@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\DB;
 
 class ObatResource extends Resource
 {
@@ -32,6 +33,15 @@ class ObatResource extends Resource
             ]);
     }
 
+    public static function query(): Builder
+    {
+        return Obat::query()
+            ->select('obats.*', DB::raw('COALESCE(SUM(inventaris.stok_obat), 0) as total_stok'))
+            ->leftJoin('inventaris', 'inventaris.obat_id', '=', 'obats.id')
+            ->groupBy('obats.id');
+    }
+
+
     public static function table(Table $table): Table
     {
         return $table
@@ -51,13 +61,29 @@ class ObatResource extends Resource
                     ->formatStateUsing(fn ($state): string => 'Rp ' . number_format($state, 2, ',', '.'))
                     ->sortable()
                     ->searchable(),
+                Tables\Columns\TextColumn::make('total_stok')
+                    ->label('Total Stok')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('total_stok')
+                    ->label('Status')
+                    ->formatStateUsing(function (Obat $record) {
+                        return $record->total_stok > 0 ? 'Tersedia' : 'Tidak Tersedia';
+                    })
+                    ->badge()
+                    ->color('info')
+                    ->sortable()
+                    ->searchable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ])->icon('heroicon-m-ellipsis-horizontal'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

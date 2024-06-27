@@ -15,4 +15,14 @@ class Obat extends Model
         'harga_obat',
         'kemasan_obat',
     ];
+
+    public function stok()
+    {
+        return $this->hasMany(Inventaris::class);
+    }
+
+    public function getTotalStokAttribute()
+    {
+        return $this->stok()->sum('stok_obat');
+    }
 }
