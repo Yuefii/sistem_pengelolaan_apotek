@@ -16,8 +16,9 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class TransaksiResource extends Resource
 {
     protected static ?string $model = Transaksi::class;
-
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $modelLabel = 'Transaksi Penjualan';
+    protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
+    protected static ?string $navigationLabel = 'Transaksi';
 
     public static function form(Form $form): Form
     {
@@ -30,10 +31,10 @@ class TransaksiResource extends Resource
                 Forms\Components\Select::make('user_id')
                     ->relationship('user', 'name')
                     ->required(),
+                Forms\Components\DatePicker::make('tanggal')
+                    ->required(),
                 Forms\Components\TextInput::make('jumlah')
                     ->numeric()
-                    ->required(),
-                Forms\Components\DatePicker::make('tanggal')
                     ->required(),
             ]);
     }

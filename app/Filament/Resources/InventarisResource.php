@@ -16,8 +16,9 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class InventarisResource extends Resource
 {
     protected static ?string $model = Inventaris::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationLabel = 'Kelola Stok';
+    protected static ?string $navigationGroup = 'Management System';
 
     public static function form(Form $form): Form
     {

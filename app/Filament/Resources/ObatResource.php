@@ -17,8 +17,9 @@ use Illuminate\Support\Facades\DB;
 class ObatResource extends Resource
 {
     protected static ?string $model = Obat::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationLabel = 'Kelola Obat';
+    protected static ?string $navigationGroup = 'Management System';
 
     public static function form(Form $form): Form
     {
