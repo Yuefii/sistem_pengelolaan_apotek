@@ -30,6 +30,8 @@ class TransaksiResource extends Resource
                     ->required(),
                 Forms\Components\Select::make('user_id')
                     ->relationship('user', 'name')
+                    ->default(auth()->user()->id)
+                    ->disabled()
                     ->required(),
                 Forms\Components\DatePicker::make('tanggal')
                     ->required(),

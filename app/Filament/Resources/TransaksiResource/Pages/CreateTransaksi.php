@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateTransaksi extends CreateRecord
 {
     protected static string $resource = TransaksiResource::class;
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        $data['user_id'] = auth()->user()->id;
+        return $data;
+    }
 }

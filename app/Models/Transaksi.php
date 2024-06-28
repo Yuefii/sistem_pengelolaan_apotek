@@ -24,6 +24,9 @@ class Transaksi extends Model
             $inventaris = Inventaris::where('obat_id', $transaksi->obat_id)->first();
 
             if ($inventaris) {
+                if ($inventaris->stok_obat < $transaksi->jumlah) {
+                    throw new \Exception('Stok obat tidak mencukupi.');
+                }
                 $inventaris->stok_obat -= $transaksi->jumlah;
                 $inventaris->save();
             }
