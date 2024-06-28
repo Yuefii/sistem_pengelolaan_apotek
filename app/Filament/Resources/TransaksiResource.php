@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\TransaksiResource\Pages;
 use App\Filament\Resources\TransaksiResource\RelationManagers;
 use App\Models\Transaksi;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,7 +14,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class TransaksiResource extends Resource
+class TransaksiResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = Transaksi::class;
     protected static ?string $modelLabel = 'Transaksi Penjualan';
@@ -92,6 +93,18 @@ class TransaksiResource extends Resource
             'index' => Pages\ListTransaksis::route('/'),
             'create' => Pages\CreateTransaksi::route('/create'),
             // 'edit' => Pages\EditTransaksi::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getPermissionPrefixes(): array
+    {
+        return [
+            'view',
+            'view_any',
+            'create',
+            'update',
+            'delete',
+            'delete_any'
         ];
     }
 }

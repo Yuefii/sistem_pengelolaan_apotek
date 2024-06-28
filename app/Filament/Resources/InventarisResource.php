@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\InventarisResource\Pages;
 use App\Filament\Resources\InventarisResource\RelationManagers;
 use App\Models\Inventaris;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,7 +14,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class InventarisResource extends Resource
+class InventarisResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = Inventaris::class;
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
@@ -79,6 +80,18 @@ class InventarisResource extends Resource
             'index' => Pages\ListInventaris::route('/'),
             'create' => Pages\CreateInventaris::route('/create'),
             // 'edit' => Pages\EditInventaris::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getPermissionPrefixes(): array
+    {
+        return [
+            'view',
+            'view_any',
+            'create',
+            'update',
+            'delete',
+            'delete_any'
         ];
     }
 }

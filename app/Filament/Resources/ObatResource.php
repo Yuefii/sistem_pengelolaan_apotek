@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ObatResource\Pages;
 use App\Filament\Resources\ObatResource\RelationManagers;
 use App\Models\Obat;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\DB;
 
-class ObatResource extends Resource
+class ObatResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = Obat::class;
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
@@ -96,6 +97,18 @@ class ObatResource extends Resource
             'index' => Pages\ListObats::route('/'),
             'create' => Pages\CreateObat::route('/create'),
             'edit' => Pages\EditObat::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getPermissionPrefixes(): array
+    {
+        return [
+            'view',
+            'view_any',
+            'create',
+            'update',
+            'delete',
+            'delete_any'
         ];
     }
 }
