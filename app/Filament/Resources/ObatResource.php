@@ -38,7 +38,8 @@ class ObatResource extends Resource
         return Obat::query()
             ->select('obats.*', DB::raw('COALESCE(SUM(inventaris.stok_obat), 0) as total_stok'))
             ->leftJoin('inventaris', 'inventaris.obat_id', '=', 'obats.id')
-            ->groupBy('obats.id');
+            ->groupBy('obats.id')
+            ->orderBy('total_stok', 'asc');
     }
 
 
@@ -63,17 +64,6 @@ class ObatResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('total_stok')
                     ->label('Total Stok')
-                    ->sortable()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('total_stok')
-                    ->label('Status')
-                    ->formatStateUsing(function (Obat $record) {
-                        return $record->total_stok > 0 ? 'Tersedia' : 'Tidak Tersedia';
-                    })
-                    ->badge()
-                    ->color('info')
-                    ->sortable()
-                    ->searchable(),
             ])
             ->filters([
                 //
