@@ -6,10 +6,12 @@ use App\Filament\Resources\TransaksiResource\Pages;
 use App\Filament\Resources\TransaksiResource\RelationManagers;
 use App\Models\Transaksi;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\Indicator;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -64,6 +66,9 @@ class TransaksiResource extends Resource implements HasShieldPermissions
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('tanggal')
+                    ->getStateUsing(function ($record) {
+                        return Carbon::parse($record->tanggal)->format('m/d/y');
+                    })
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('user.name')
@@ -74,6 +79,47 @@ class TransaksiResource extends Resource implements HasShieldPermissions
             ])
             ->filters([
                 //
+                Tables\Filters\SelectFilter::make('user_id')
+                    ->label('Pegawai')
+                    ->options(function () {
+                        return \App\Models\User::pluck('name', 'id')->toArray();
+                    }),
+                Tables\Filters\SelectFilter::make('obat_id')
+                    ->label('Obat')
+                    ->options(function () {
+                        return \App\Models\Obat::pluck('nama_obat', 'id')->toArray();
+                    }),
+                Tables\Filters\Filter::make('tanggal')
+                    ->form([
+                        Forms\Components\DatePicker::make('created_from'),
+                        Forms\Components\DatePicker::make('created_until'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['created_from'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('tanggal', '>=', $date),
+                            )
+                            ->when(
+                                $data['created_until'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('tanggal', '<=', $date),
+                            );
+                    })
+                    ->indicateUsing(function (array $data): array {
+                        $indicators = [];
+
+                        if ($data['created_from'] ?? null) {
+                            $indicators[] = Indicator::make('Dibuat dari ' . Carbon::parse($data['created_from'])->toFormattedDateString())
+                                ->removeField('created_from');
+                        }
+
+                        if ($data['created_until'] ?? null) {
+                            $indicators[] = Indicator::make('Dibuat sampai ' . Carbon::parse($data['created_until'])->toFormattedDateString())
+                                ->removeField('created_until');
+                        }
+
+                        return $indicators;
+                    })
             ])
             ->actions([
                 // Tables\Actions\EditAction::make(),
