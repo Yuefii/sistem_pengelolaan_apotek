@@ -13,7 +13,14 @@ class ListTransaksis extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+                ->label('Membuat Transaksi')
+                ->icon('heroicon-o-plus-circle'),
+            Actions\Action::make('download_pdf')
+                ->label('Download PDF')
+                ->color('danger')
+                ->url(fn () => route('transaksi.download-pdf', request()->query()))
+                ->icon('heroicon-o-arrow-down-tray'),
         ];
     }
 }
