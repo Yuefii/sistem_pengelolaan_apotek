@@ -55,17 +55,20 @@ class TransaksiResource extends Resource implements HasShieldPermissions
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('jumlah')
-                    ->sortable()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('tanggal')
+                    ->badge()
+                    ->color('success')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('total_harga')
                     ->label('Total Harga')
                     ->sortable()
                     ->searchable(),
+                Tables\Columns\TextColumn::make('tanggal')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('Pegawai')
+                    ->badge()
                     ->sortable()
                     ->searchable(),
             ])

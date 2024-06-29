@@ -56,6 +56,8 @@ class ObatResource extends Resource implements HasShieldPermissions
                     ->searchable(),
                 Tables\Columns\TextColumn::make('total_stok_obat')
                     ->label('Total Stok')
+                    ->color('gray')
+                    ->badge()
             ])
             ->filters([
                 //
