@@ -35,16 +35,6 @@ class ObatResource extends Resource implements HasShieldPermissions
             ]);
     }
 
-    public static function query(): Builder
-    {
-        return Obat::query()
-            ->select('obats.*', DB::raw('COALESCE(SUM(inventaris.stok_obat), 0) as total_stok'))
-            ->leftJoin('inventaris', 'inventaris.obat_id', '=', 'obats.id')
-            ->groupBy('obats.id')
-            ->orderBy('total_stok', 'asc');
-    }
-
-
     public static function table(Table $table): Table
     {
         return $table
@@ -64,7 +54,7 @@ class ObatResource extends Resource implements HasShieldPermissions
                     ->formatStateUsing(fn ($state): string => 'Rp ' . number_format($state, 2, ',', '.'))
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('total_stok')
+                Tables\Columns\TextColumn::make('total_stok_obat')
                     ->label('Total Stok')
             ])
             ->filters([

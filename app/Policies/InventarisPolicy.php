@@ -63,7 +63,7 @@ class InventarisPolicy
      */
     public function forceDelete(User $user, Inventaris $inventaris): bool
     {
-        return $user->can('force_delete_inventaris');
+        return $user->can('{{ ForceDelete }}');
     }
 
     /**
@@ -71,7 +71,7 @@ class InventarisPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_inventaris');
+        return $user->can('{{ ForceDeleteAny }}');
     }
 
     /**
@@ -79,7 +79,7 @@ class InventarisPolicy
      */
     public function restore(User $user, Inventaris $inventaris): bool
     {
-        return $user->can('restore_inventaris');
+        return $user->can('{{ Restore }}');
     }
 
     /**
@@ -87,7 +87,7 @@ class InventarisPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_inventaris');
+        return $user->can('{{ RestoreAny }}');
     }
 
     /**
@@ -95,7 +95,7 @@ class InventarisPolicy
      */
     public function replicate(User $user, Inventaris $inventaris): bool
     {
-        return $user->can('replicate_inventaris');
+        return $user->can('{{ Replicate }}');
     }
 
     /**
@@ -103,6 +103,6 @@ class InventarisPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_inventaris');
+        return $user->can('{{ Reorder }}');
     }
 }

@@ -39,6 +39,9 @@ class TransaksiResource extends Resource implements HasShieldPermissions
                 Forms\Components\TextInput::make('jumlah')
                     ->numeric()
                     ->required(),
+                Forms\Components\TextInput::make('total_harga')
+                    ->disabled()
+                    ->visible(false),
             ]);
     }
 
@@ -59,9 +62,8 @@ class TransaksiResource extends Resource implements HasShieldPermissions
                     ->searchable(),
                 Tables\Columns\TextColumn::make('total_harga')
                     ->label('Total Harga')
-                    ->getStateUsing(function ($record) {
-                        return 'Rp ' . number_format($record->jumlah * $record->obat->harga_obat, 2, ',', '.');
-                    }),
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('Pegawai')
                     ->sortable()

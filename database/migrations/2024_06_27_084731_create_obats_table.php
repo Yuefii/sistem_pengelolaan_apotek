@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('dosis_obat');
             $table->integer('harga_obat');
             $table->string('kemasan_obat');
+            $table->integer('total_stok_obat')->default(0);
             $table->timestamps();
         });
     }

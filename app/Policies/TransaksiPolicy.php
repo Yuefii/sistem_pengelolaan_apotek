@@ -63,7 +63,7 @@ class TransaksiPolicy
      */
     public function forceDelete(User $user, Transaksi $transaksi): bool
     {
-        return $user->can('force_delete_transaksi');
+        return $user->can('{{ ForceDelete }}');
     }
 
     /**
@@ -71,7 +71,7 @@ class TransaksiPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_transaksi');
+        return $user->can('{{ ForceDeleteAny }}');
     }
 
     /**
@@ -79,7 +79,7 @@ class TransaksiPolicy
      */
     public function restore(User $user, Transaksi $transaksi): bool
     {
-        return $user->can('restore_transaksi');
+        return $user->can('{{ Restore }}');
     }
 
     /**
@@ -87,7 +87,7 @@ class TransaksiPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_transaksi');
+        return $user->can('{{ RestoreAny }}');
     }
 
     /**
@@ -95,7 +95,7 @@ class TransaksiPolicy
      */
     public function replicate(User $user, Transaksi $transaksi): bool
     {
-        return $user->can('replicate_transaksi');
+        return $user->can('{{ Replicate }}');
     }
 
     /**
@@ -103,6 +103,6 @@ class TransaksiPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_transaksi');
+        return $user->can('{{ Reorder }}');
     }
 }

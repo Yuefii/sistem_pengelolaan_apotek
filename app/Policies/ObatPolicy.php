@@ -63,7 +63,7 @@ class ObatPolicy
      */
     public function forceDelete(User $user, Obat $obat): bool
     {
-        return $user->can('force_delete_obat');
+        return $user->can('{{ ForceDelete }}');
     }
 
     /**
@@ -71,7 +71,7 @@ class ObatPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_obat');
+        return $user->can('{{ ForceDeleteAny }}');
     }
 
     /**
@@ -79,7 +79,7 @@ class ObatPolicy
      */
     public function restore(User $user, Obat $obat): bool
     {
-        return $user->can('restore_obat');
+        return $user->can('{{ Restore }}');
     }
 
     /**
@@ -87,7 +87,7 @@ class ObatPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_obat');
+        return $user->can('{{ RestoreAny }}');
     }
 
     /**
@@ -95,7 +95,7 @@ class ObatPolicy
      */
     public function replicate(User $user, Obat $obat): bool
     {
-        return $user->can('replicate_obat');
+        return $user->can('{{ Replicate }}');
     }
 
     /**
@@ -103,6 +103,6 @@ class ObatPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_obat');
+        return $user->can('{{ Reorder }}');
     }
 }

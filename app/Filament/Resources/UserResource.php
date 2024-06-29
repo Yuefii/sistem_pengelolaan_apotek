@@ -62,8 +62,8 @@ class UserResource extends Resource implements HasShieldPermissions
                     ->label('Peran')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
-                        'Pegawai' => 'info',
-                        'Admin' => 'success',
+                        'pegawai' => 'info',
+                        'super_admin' => 'success',
                     })
                     ->sortable()
                     ->searchable(),

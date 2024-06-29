@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id();
             $table->integer('jumlah');
+            $table->integer('total_harga');
             $table->date('tanggal');
             $table->foreignId('obat_id')->constrained('obats')->cascadeOnDelete();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();

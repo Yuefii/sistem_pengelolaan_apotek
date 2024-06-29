@@ -14,22 +14,26 @@ class Transaksi extends Model
         'obat_id',
         'jumlah',
         'tanggal',
+        'total_harga'
     ];
 
-    public static function boot()
+    protected static function boot()
     {
         parent::boot();
 
-        static::created(function ($transaksi) {
-            $inventaris = Inventaris::where('obat_id', $transaksi->obat_id)->first();
+        static::saving(function ($transaction) {
+            $obat = $transaction->obat;
+            $harga_obat = $obat->harga_obat;
+            $transaction->total_harga = $transaction->jumlah * $harga_obat;
 
-            if ($inventaris) {
-                if ($inventaris->stok_obat < $transaksi->jumlah) {
-                    throw new \Exception('Stok obat tidak mencukupi.');
-                }
-                $inventaris->stok_obat -= $transaksi->jumlah;
-                $inventaris->save();
+            if ($transaction->jumlah > $obat->total_stok_obat) {
+                throw new \Exception('Jumlah transaksi melebihi stok obat yang tersedia.');
             }
+        });
+        static::created(function ($transaction) {
+            $obat = $transaction->obat;
+            $obat->total_stok_obat -= $transaction->jumlah;
+            $obat->save();
         });
     }
 
