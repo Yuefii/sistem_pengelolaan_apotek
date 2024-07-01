@@ -5,6 +5,8 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\TransaksiResource\Pages;
 use App\Filament\Resources\TransaksiResource\RelationManagers;
 use App\Models\Transaksi;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
+use Illuminate\Http\Request;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Carbon\Carbon;
 use Filament\Forms;
@@ -157,5 +159,46 @@ class TransaksiResource extends Resource implements HasShieldPermissions
             'delete',
             'delete_any'
         ];
+    }
+
+    public function exportToPdf(Request $request)
+    {
+        $user_id = $request->user_id;
+        $obat_id = $request->obat_id;
+        $created_from = $request->created_from;
+        $created_until = $request->created_until;
+
+        $query = Transaksi::query();
+
+        if ($user_id) {
+            $query->where('user_id', $user_id);
+        }
+
+        if ($obat_id) {
+            $query->where('obat_id', $obat_id);
+        }
+
+        if ($created_from) {
+            $query->whereDate('tanggal', '>=', $created_from);
+        }
+
+        if ($created_until) {
+            $query->whereDate('tanggal', '<=', $created_until);
+        }
+
+        if ($request->has('sort')) {
+            $sortField = $request->input('sort');
+            $sortDirection = $request->input('direction', 'asc');
+
+            $query->orderBy($sortField, $sortDirection);
+        } else {
+            $query->orderBy('tanggal', 'asc');
+        }
+
+        $transaksis = $query->get();
+
+        $pdf = FacadePdf::loadView('transaksi.pdf', compact('transaksis'));
+
+        return $pdf->download('transaksi.pdf');
     }
 }

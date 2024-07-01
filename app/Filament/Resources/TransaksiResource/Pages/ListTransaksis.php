@@ -16,11 +16,12 @@ class ListTransaksis extends ListRecords
             Actions\CreateAction::make()
                 ->label('Membuat Transaksi')
                 ->icon('heroicon-o-plus-circle'),
-            Actions\Action::make('download_pdf')
-                ->label('Download PDF')
+            Actions\Action::make('exportPdf')
+                ->label('Export to PDF')
                 ->color('danger')
-                ->url(fn () => route('transaksi.download-pdf', request()->query()))
-                ->icon('heroicon-o-arrow-down-tray'),
+                ->icon('heroicon-o-arrow-down-tray')
+                ->url(fn () => route('transaksi.export-pdf'))
+                ->openUrlInNewTab()
         ];
     }
 }
