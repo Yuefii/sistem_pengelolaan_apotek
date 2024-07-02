@@ -1,4 +1,4 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://media.discordapp.net/attachments/1153344224373264436/1257632196269838366/image.png?ex=66851cc1&is=6683cb41&hm=28869ecd354c09cf877f35f0f792180a70fa9510d40c6607830c84e167221c20&=&format=webp&quality=lossless&width=783&height=468" width="400" alt="Laravel Logo"></a></p>
+<p align="center"><img src="https://media.discordapp.net/attachments/1153344224373264436/1257632196269838366/image.png?ex=66851cc1&is=6683cb41&hm=28869ecd354c09cf877f35f0f792180a70fa9510d40c6607830c84e167221c20&=&format=webp&quality=lossless&width=783&height=468" width="400" alt="Laravel Logo"></p>
 
 ## About Projects
 
